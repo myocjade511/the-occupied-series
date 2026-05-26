@@ -1,3 +1,6 @@
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import path from 'path';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -8,6 +11,22 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { name, email } = req.body || {};
 
+    // Save lead to /tmp CSV (Vercel serverless writable)
+    if (name && email) {
+      try {
+        const tmpCsv = '/tmp/occupied-leads.csv';
+        const exists = existsSync(tmpCsv);
+        const line = `"${name.replace(/"/g,'""')}","${email.replace(/"/g,'""')}","occupied-series",${new Date().toISOString()}\n`;
+        if (!exists) {
+          const header = 'Name,Email,Source,Timestamp\n';
+          writeFileSync(tmpCsv, header + line);
+        } else {
+          writeFileSync(tmpCsv, line, { flag: 'a' });
+        }
+      } catch(e) { console.error('CSV write error:', e); }
+    }
+
+    // Send via AgentMail
     const agentmailKey = process.env.AGENTMAIL_API_KEY;
     const agentmailInbox = process.env.AGENTMAIL_SEND_INBOX;
 
@@ -57,9 +76,7 @@ The Occupied Series: https://www.amazon.com/dp/B0GX2XCCR8`;
             text: chapter
           })
         });
-      } catch (e) {
-        // Email sending failed silently — page still shows chapter inline
-      }
+      } catch (e) { console.error('AgentMail error:', e); }
     }
 
     return res.status(200).json({
@@ -71,9 +88,17 @@ The Occupied Series: https://www.amazon.com/dp/B0GX2XCCR8`;
   }
 
   if (req.method === 'GET') {
+    const tmpCsv = '/tmp/occupied-leads.csv';
+    let csv = 'Name,Email,Source,Timestamp\n';
+    try {
+      if (existsSync(tmpCsv)) {
+        csv = readFileSync(tmpCsv, 'utf-8');
+      }
+    } catch(e) { console.error('CSV read error:', e); }
+    
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename="occupied-leads.csv"');
-    return res.status(200).send('Name,Email,Source,Timestamp\n');
+    return res.status(200).send(csv);
   }
 
   return res.status(405).end();
