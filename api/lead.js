@@ -1,6 +1,7 @@
 const GH_TOKEN = process.env.GH_TOKEN;
 const GH_REPO = 'myocjade511/the-occupied-series';
 const CSV_PATH = 'data/leads.csv';
+const CSV_TOKEN = process.env.CSV_ACCESS_TOKEN;
 
 async function readCSV() {
   try {
@@ -31,6 +32,18 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
+
+  if (req.method === 'GET') {
+    // Require token for CSV download
+    const token = req.query.token || '';
+    if (!CSV_TOKEN || token !== CSV_TOKEN) {
+      return res.status(401).json({ error: 'Unauthorized. Provide ?token=*** to access leads.' });
+    }
+    const { sha, csv } = await readCSV();
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="occupied-leads.csv"');
+    return res.status(200).send(csv);
+  }
 
   if (req.method === 'POST') {
     const { name, email } = req.body || {};
@@ -88,13 +101,6 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({ ok: true, message: 'Lead captured', name: name || 'Reader', email: email || '' });
-  }
-
-  if (req.method === 'GET') {
-    const { sha, csv } = await readCSV();
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename="occupied-leads.csv"');
-    return res.status(200).send(csv);
   }
 
   return res.status(405).end();
