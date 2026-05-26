@@ -8,26 +8,13 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { name, email } = req.body || {};
 
-    // Try to send email via AgentMail API if configured
     const agentmailKey = process.env.AGENTMAIL_API_KEY;
-    if (agentmailKey && email) {
+    const agentmailInbox = process.env.AGENTMAIL_SEND_INBOX;
+
+    if (agentmailKey && agentmailInbox && email) {
       try {
-        // 1. Create a temporary inbox
-        const inboxRes = await fetch('https://api.agentmail.to/v0/inboxes', {
-          method: 'POST',
-          headers: { 
-            'Authorization': `Bearer ${agentmailKey}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ identifier: `occupied-chapter-${Date.now()}` })
-        });
-        
-        if (inboxRes.ok) {
-          const inbox = await inboxRes.json();
-          const inboxId = inbox.id;
-          
-          // 2. Send the chapter email
-          const chapter = `Hi ${name || 'Reader'},
+        const inboxId = encodeURIComponent(agentmailInbox);
+        const chapter = `Hi ${name || 'Reader'},
 
 Here's your free chapter from The Woman Next Door Smiles Too Much (Book 1 of The Occupied Series).
 
@@ -58,25 +45,18 @@ To be continued...
 Buy the full book: https://www.amazon.com/dp/B0GZWSXXH3
 The Occupied Series: https://www.amazon.com/dp/B0GX2XCCR8`;
 
-          await fetch(`https://api.agentmail.to/v0/inboxes/${inboxId}/messages/send`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${agentmailKey}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              to: [email],
-              subject: 'Your Free Chapter from The Occupied Series',
-              text: chapter
-            })
-          });
-
-          // 3. Clean up — delete the temp inbox
-          fetch(`https://api.agentmail.to/v0/inboxes/${inboxId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${agentmailKey}` }
-          }).catch(() => {});
-        }
+        await fetch(`https://api.agentmail.to/v0/inboxes/${inboxId}/messages/send`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${agentmailKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            to: [email],
+            subject: 'Your Free Chapter from The Occupied Series',
+            text: chapter
+          })
+        });
       } catch (e) {
         // Email sending failed silently — page still shows chapter inline
       }
