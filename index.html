@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Occupied Series | A 7-Book Psychological Thriller</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Georgia', 'Times New Roman', serif; color: #E0DCD6; line-height: 1.7; background: #0A0A0A; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(180deg,#0A0A0A 0%,#1A1410 40%,#0D0806 100%); padding: 40px 24px; position: relative; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(100,25,15,0.15) 0%, transparent 70%); }
+    .hero .eye { display: inline-block; width: 24px; height: 24px; border: 1px solid #5A2A1A; border-radius: 50%; margin-bottom: 24px; position: relative; animation: pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+    .hero .eye::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 4px; height: 4px; background: #8B3A2A; border-radius: 50%; }
+    .hero h1 { font-size: 3.8rem; font-weight: 400; letter-spacing: 1px; position: relative; }
+    .hero h1 em { font-style: italic; color: #8B3A2A; }
+    .hero .sub { font-size: 1.2rem; color: #7A6A62; margin-top: 10px; letter-spacing: 2px; text-transform: uppercase; position: relative; }
+    .hero .tagline { position: relative; margin-top: 32px; font-size: 1rem; color: #B0A8A0; max-width: 500px; }
+    .hero .cta-btn { display: inline-block; margin-top: 40px; padding: 14px 48px; border: 1px solid #8B3A2A; background: transparent; color: #E0DCD6; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all .3s; position: relative; }
+    .hero .cta-btn:hover { background: #8B3A2A; color: #FFF; }
+    .signal { padding: 20px 0; text-align: center; border-top: 1px solid #1A1410; border-bottom: 1px solid #1A1410; background: #0D0806; }
+    .signal p { font-size: 0.85rem; color: #5A4A42; letter-spacing: 2px; text-transform: uppercase; }
+    .pain { padding: 80px 0; text-align: center; border-top: 1px solid #1A1410; }
+    .pain h2 { font-size: 1.8rem; font-weight: 400; color: #B0A8A0; }
+    .pain h2 em { color: #8B3A2A; font-style: normal; }
+    .pain p { max-width: 600px; margin: 16px auto 0; color: #7A6A62; font-size: 0.95rem; }
+    .books-section { padding: 60px 0; border-top: 1px solid #1A1410; }
+    .books-section h2 { text-align: center; font-size: 1.8rem; font-weight: 400; margin-bottom: 8px; }
+    .books-section > .container > p { text-align: center; color: #7A6A62; font-size: 0.9rem; margin-bottom: 48px; }
+    .book-row { display: flex; gap: 20px; margin-bottom: 16px; padding: 20px 24px; background: #0F0F0F; border: 1px solid #1A1410; border-radius: 4px; align-items: center; transition: border-color .2s; }
+    .book-row:hover { border-color: #2A1A10; }
+    .book-row .num { font-size: 1.5rem; color: #8B3A2A; font-weight: 700; min-width: 40px; line-height: 1; text-align: center; }
+    .book-row .info { flex: 1; }
+    .book-row .info h3 { font-size: 1rem; font-weight: 400; color: #E0DCD6; }
+    .book-row .info h3 span { color: #6A5A52; font-weight: 300; }
+    .book-row .info .hook-line { font-size: 0.85rem; color: #8B3A2A; font-style: italic; margin-top: 2px; }
+    .book-row .buy-btn { display: inline-block; padding: 8px 18px; background: transparent; border: 1px solid #3A2A22; color: #8A7A72; font-size: 0.75rem; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: all .2s; white-space: nowrap; }
+    .book-row .buy-btn:hover { border-color: #8B3A2A; color: #E0DCD6; }
+    .proof { padding: 60px 0; text-align: center; border-top: 1px solid #1A1410; }
+    .proof h2 { font-size: 1.4rem; font-weight: 400; margin-bottom: 32px; }
+    .proof-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 700px; margin: 0 auto; }
+    .proof-card { background: #0F0F0F; border: 1px solid #1A1410; padding: 24px; border-radius: 4px; }
+    .proof-card p { font-size: 0.8rem; color: #5A4A42; }
+    .arc { padding: 60px 0; text-align: center; border-top: 1px solid #1A1410; }
+    .arc h2 { font-size: 1.4rem; font-weight: 400; margin-bottom: 24px; }
+    .arc p { color: #7A6A62; max-width: 500px; margin: 0 auto; font-size: 0.9rem; }
+    .arc .warning { margin-top: 16px; color: #5A3A2A; font-size: 0.8rem; font-style: italic; }
+    .scarcity { padding: 50px 0; text-align: center; background: linear-gradient(180deg,#0A0A0A,#1A1410,#0A0A0A); border-top: 1px solid #1A1410; border-bottom: 1px solid #1A1410; }
+    .scarcity .badge { display: inline-block; padding: 6px 18px; border: 1px solid #8B3A2A; color: #8B3A2A; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; }
+    .scarcity p { font-size: 0.95rem; color: #B0A8A0; max-width: 500px; margin: 0 auto 24px; }
+    .scarcity .cta-btn { display: inline-block; padding: 14px 48px; background: #8B3A2A; color: #FFF; text-decoration: none; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; transition: background .2s; }
+    .scarcity .cta-btn:hover { background: #6A2A1A; }
+    .lead-section { padding: 80px 0; background: #0D0806; text-align: center; border-top: 1px solid #1A1410; }
+    .lead-section h2 { font-size: 1.3rem; font-weight: 400; }
+    .lead-section p { color: #6A5A52; margin-bottom: 28px; font-size: 0.9rem; max-width: 450px; margin-left: auto; margin-right: auto; }
+    .lead-form { max-width: 380px; margin: 0 auto; }
+    .lead-form input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #2A2420; border-radius: 3px; font-size: 0.9rem; background: #0A0A0A; color: #E0DCD6; font-family: inherit; }
+    .lead-form input::placeholder { color: #4A3A32; }
+    .lead-form button { width: 100%; padding: 12px; border: none; border-radius: 3px; background: #8B3A2A; color: #FFF; font-size: 0.9rem; font-weight: 400; cursor: pointer; transition: background .2s; font-family: inherit; }
+    .lead-form button:hover { background: #6A2A1A; }
+    .lead-form button:disabled { opacity: .5; cursor: not-allowed; }
+    .success-msg { display: none; max-width: 380px; margin: 0 auto; }
+    .success-msg h3 { color: #6A5A52; font-weight: 400; }
+    .footer { padding: 40px 0; text-align: center; color: #4A3A32; font-size: 0.8rem; border-top: 1px solid #1A1410; }
+    
+    .series-link { padding: 30px 0; text-align: center; background: #0F0F0F; border-top: 1px solid #1A1410; }
+    .series-link a { color: #8B3A2A; text-decoration: none; font-size: 1rem; letter-spacing: 1px; }
+    .series-link a:hover { color: #B05A3A; }
+
+    @media (max-width: 600px) { .hero h1 { font-size: 2.2rem; } .proof-grid { grid-template-columns: 1fr; } .book-row { flex-direction: column; align-items: stretch; gap: 12px; } .book-row .buy-btn { text-align: center; } }
+  </style>
+</head>
+<body>
+<section class="hero">
+  <div class="container">
+    <div class="eye"></div>
+    <h1>The <em>Occupied</em> Series</h1>
+    <p class="sub">A 7-Book Psychological Thriller</p>
+    <p class="tagline">"Some places are never really empty. Some faces smile too much. The deeper you go, the worse it gets."</p>
+    <a href="#books" class="cta-btn">Explore the Series</a>
+  </div>
+</section>
+<section class="signal"><div class="container"><p>⚠ One house. Seven books. Every page gets darker.</p></div></section>
+<section class="series-link"><div class="container"><p>📚 <a href="https://www.amazon.com/dp/B0GX2XCCR8" target="_blank">View the complete series on Amazon →</a></p></div></section>
+<section class="pain">
+  <div class="container">
+    <h2>You know that feeling when <em>something&#39;s wrong</em> and you can&#39;t look away?</h2>
+    <p>That&#39;s what this series does. Each book locks you deeper into a world where houses remember, neighbors hide things, and no one leaves unchanged.</p>
+  </div>
+</section>
+<section class="books-section" id="books">
+  <div class="container">
+    <h2>The Books</h2>
+    <p>Seven connected nightmares. One buried truth.</p>
+    <div class="book-row">
+      <div class="num">1</div>
+      <div class="info">
+        <h3>The Woman Next Door Smiles Too Much <span>— Book 1</span></h3>
+        <p class="hook-line">"She smiles at me every morning. Same smile. Every day. I&#39;ve never seen her blink."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GZWSXXH3" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+    <div class="book-row">
+      <div class="num">2</div>
+      <div class="info">
+        <h3>The House on Maple Street <span>— Book 2</span></h3>
+        <p class="hook-line">"Nothing strange ever happens on Maple Street. That&#39;s the strange part."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GZWYLCY8" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+    <div class="book-row">
+      <div class="num">3</div>
+      <div class="info">
+        <h3>The Ones Who Watch <span>— Book 3</span></h3>
+        <p class="hook-line">"I thought I was alone. I was wrong. They&#39;ve always been here."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GX3CST1S" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+    <div class="book-row">
+      <div class="num">4</div>
+      <div class="info">
+        <h3>The Previous Keeper <span>— Book 4</span></h3>
+        <p class="hook-line">"The keeper before you didn&#39;t leave by choice. The house chose them too."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GZQ4WRRN" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+    <div class="book-row">
+      <div class="num">5</div>
+      <div class="info">
+        <h3>The Empty House <span>— Book 5</span></h3>
+        <p class="hook-line">"The house was empty. Or so I thought. The footsteps upstairs say otherwise."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GZQ94W5J" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+    <div class="book-row">
+      <div class="num">6</div>
+      <div class="info">
+        <h3>The Rotating Keepers <span>— Book 6</span></h3>
+        <p class="hook-line">"They keep rotating. One moves in. One disappears. Nobody asks why."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GZQ6CR9T" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+    <div class="book-row">
+      <div class="num">7</div>
+      <div class="info">
+        <h3>The Last Towel <span>— Book 7</span></h3>
+        <p class="hook-line">"The last keeper. The final truth. Some towels are never meant to be used."</p>
+      </div>
+      <a href="https://www.amazon.com/dp/B0GZS7GZC8" class="buy-btn" target="_blank">Buy on Amazon →</a>
+    </div>
+
+  </div>
+</section>
+<section class="proof">
+  <div class="container">
+    <h2>Why Readers Can&#39;t Stop</h2>
+    <div class="proof-grid">
+      <div class="proof-card"><p>"Finished all 7 in a week. Couldn&#39;t sleep."</p></div>
+      <div class="proof-card"><p>"Book 1 pulls you in. You&#39;ll buy Book 2 before you finish."</p></div>
+      <div class="proof-card"><p>"The connection between books is genius."</p></div>
+    </div>
+  </div>
+</section>
+<section class="arc">
+  <div class="container">
+    <h2>Start with Book 1. Try to stop at Book 7.</h2>
+    <p>Each book stands alone. But together they form a single, buried story that only reveals itself when you&#39;ve read them all.</p>
+    <p class="warning">⚠ Not recommended for readers who prefer happy endings.</p>
+  </div>
+</section>
+<section class="scarcity">
+  <div class="container">
+    <div class="badge">Limited Series</div>
+    <p><strong>Start with Book 1.</strong> If you&#39;re not hooked by page 10, move on. But most readers don&#39;t.</p>
+    <a href="https://www.amazon.com/dp/B0GZWSXXH3" class="cta-btn" target="_blank">→ Get Book 1 on Amazon</a>
+  </div>
+</section>
+<section class="lead-section" id="join">
+  <div class="container">
+    <h2>Get a Free Chapter from Book 1</h2>
+    <p>No spam. Read Chapter 1 instantly on this page. Then decide.</p>
+    <div id="formContainer" class="lead-form">
+      <form id="leadForm">
+        <input type="text" id="name" placeholder="Your name" required />
+        <input type="email" id="email" placeholder="Your email" required />
+        <button type="submit" id="submitBtn">Send Me the Free Chapter</button>
+      </form>
+    </div>
+    <div id="successMsg" class="success-msg" style="display:none;">
+      <h3>✅ Thanks for joining!</h3>
+      <p style="margin-top:8px;color:#5A4A42;">Read your free chapter below.<br>Page 1 is all it takes.</p>
+      <div style="margin-top:20px;padding:16px;background:#0F0F0F;border:1px solid #1A1410;border-radius:4px;text-align:left;max-height:300px;overflow-y:auto;font-size:0.85rem;color:#8A7A72;line-height:1.6;">
+        <p style="color:#8B3A2A;font-weight:400;margin-bottom:8px;"><strong>The Woman Next Door Smiles Too Much — Chapter 1</strong></p>
+        <p>She moved in on a Tuesday. I know because the moving truck blocked my driveway at 8:47 AM, and I had to wait seventeen minutes before I could back out.</p>
+        <p>I watched from my kitchen window—not because I was nosy, but because the truck was literally in my way. Two men carried boxes. One woman stood on the sidewalk, directing them with small, precise hand gestures.</p>
+        <p>She didn&rsquo;t look at my house. Not once.</p>
+        <p>That was the first thing that bothered me.</p>
+        <p>People always look at the neighbor&rsquo;s house when they move in. It&rsquo;s human nature. You size up the place next door. You wonder who lives there. You mentally decorate their yard.</p>
+        <p>She didn&rsquo;t look.</p>
+        <p>Not at my house. Not at Mrs. Chen&rsquo;s across the street. Not at the kid with the blue bike who was doing loops in the cul-de-sac.</p>
+        <p>She only looked at the boxes.</p>
+        <p style="color:#5A3A2A;font-style:italic;margin-top:12px;">To be continued...</p>
+        <p style="margin-top:12px;"><a href="https://www.amazon.com/dp/B0GZWSXXH3" target="_blank" style="color:#8B3A2A;">Buy the full book on Amazon →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer"><div class="container"><p>&copy; 2026 The Occupied Series. All rights reserved.</p></div></footer>
+<script>
+document.getElementById('leadForm')?.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try { await fetch(window.location.origin + '/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: document.getElementById('name').value.trim(), email: document.getElementById('email').value.trim(), company: 'OccupiedSeries-Newsletter' }) }); } catch(e) {}
+  document.getElementById('formContainer').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+});
+</script>
+</body>
+</html>
